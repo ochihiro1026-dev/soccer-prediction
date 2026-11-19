@@ -1,6 +1,7 @@
 import json
 import math
 import os
+import re
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -8,24 +9,24 @@ from datetime import datetime, timedelta, timezone
 
 JST = timezone(timedelta(hours=9))
 
-# 対象リーグ（The Odds APIのsportキー：無料枠500クレジット/月を節約するため主要6大会に限定）
+# (The Odds API キー, 表示名, football-data.org 大会コード)
 TARGET_LEAGUES = [
-    ("soccer_epl", "プレミアリーグ"),
-    ("soccer_spain_la_liga", "ラ・リーガ"),
-    ("soccer_italy_serie_a", "セリエA"),
-    ("soccer_germany_bundesliga", "ブンデスリーガ"),
-    ("soccer_france_ligue_one", "リーグ・アン"),
-    ("soccer_uefa_champs_league", "CL"),
+    ("soccer_epl", "プレミアリーグ", "PL"),
+    ("soccer_spain_la_liga", "ラ・リーガ", "PD"),
+    ("soccer_italy_serie_a", "セリエA", "SA"),
+    ("soccer_germany_bundesliga", "ブンデスリーガ", "BL1"),
+    ("soccer_france_ligue_one", "リーグ・アン", "FL1"),
+    ("soccer_uefa_champs_league", "CL", "CL"),
+    ("soccer_uefa_europa_league", "EL", None),
 ]
 
-# 日本式ハンデ段階リスト（軽い -> 重い）
 HANDICAPS = [
     "0", "0/3", "0/5", "0/7", "0/8", "0半",
     "0半3", "0半5", "0半7", "1.0", "1.2", "1.3",
     "1.5", "1.7", "1半", "1半7", "2.0", "2.4", "3.0", "3半4",
 ]
 
-PAYOUT_RATE = 1.95  # 想定配当倍率（全勝ち時）
+PAYOUT_RATE = 1.95
 
 
 def eval_outcome(h_id: str, diff: int):
@@ -72,7 +73,6 @@ def estimate_goal_diff_probs(p_win: float, p_draw: float, p_lose: float) -> dict
     total_goals = 2.65
     best_err = 999.0
     best_lh, best_la = 1.4, 1.2
-
     for i in range(40):
         lh = 0.4 + i * 0.08
         la = max(0.25, total_goals - lh * 0.78)
@@ -136,6 +136,46 @@ def calc_metrics(h_id: str, diff_probs: dict, payout_rate: float = PAYOUT_RATE) 
     }
 
 
+def norm_name(s: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", s.lower())
+
+
+def fetch_standings(fd_key: str, comp_code: str) -> dict:
+    if not fd_key or not comp_code:
+        return {}
+    url = f"https://api.football-data.org/v4/competitions/{comp_code}/standings"
+    req = urllib.request.Request(url, headers={"X-Auth-Token": fd_key})
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+        teams = {}
+        for st in data.get("standings", []):
+            if st.get("type") != "TOTAL":
+                continue
+            for row in st.get("table", []):
+                t = row.get("team", {})
+                name = t.get("shortName") or t.get("name", "")
+                played = max(1, row.get("playedGames", 1))
+                teams[norm_name(name)] = {
+                    "pos": row.get("position"),
+                    "gf_avg": round(row.get("goalsFor", 0) / played, 2),
+                    "ga_avg": round(row.get("goalsAgainst", 0) / played, 2),
+                }
+        return teams
+    except Exception:
+        return {}
+
+
+def find_team_stat(standings: dict, team_name: str):
+    key = norm_name(team_name)
+    if key in standings:
+        return standings[key]
+    for k, v in standings.items():
+        if k in key or key in k:
+            return v
+    return None
+
+
 def fetch_league_odds(api_key: str, sport_key: str, from_iso: str, to_iso: str) -> list:
     params = urllib.parse.urlencode({
         "apiKey": api_key,
@@ -150,56 +190,52 @@ def fetch_league_odds(api_key: str, sport_key: str, from_iso: str, to_iso: str) 
     try:
         with urllib.request.urlopen(req, timeout=20) as resp:
             return json.loads(resp.read().decode("utf-8"))
-    except urllib.error.HTTPError as e:
-        print(f"[WARN] {sport_key} HTTP {e.code}: {e.read().decode('utf-8', errors='ignore')}")
-        return []
     except Exception as e:
-        print(f"[WARN] {sport_key} error: {e}")
+        print(f"[WARN] {sport_key}: {e}")
         return []
 
 
-def analyze_event(ev: dict, league_name: str):
+def analyze_event(ev: dict, league_name: str, standings: dict):
     home = ev.get("home_team", "")
     away = ev.get("away_team", "")
     bookmakers = ev.get("bookmakers", [])
     if not bookmakers:
         return None
 
-    home_odds_list, draw_odds_list, away_odds_list = [], [], []
+    home_odds, draw_odds, away_odds = [], [], []
     for bm in bookmakers:
         for m in bm.get("markets", []):
             if m.get("key") != "h2h":
                 continue
             outcomes = {o["name"]: o["price"] for o in m.get("outcomes", [])}
             if home in outcomes and away in outcomes and "Draw" in outcomes:
-                home_odds_list.append(outcomes[home])
-                draw_odds_list.append(outcomes["Draw"])
-                away_odds_list.append(outcomes[away])
+                home_odds.append(outcomes[home])
+                draw_odds.append(outcomes["Draw"])
+                away_odds.append(outcomes[away])
 
-    if not home_odds_list:
+    if not home_odds:
         return None
 
-    avg_h = sum(home_odds_list) / len(home_odds_list)
-    avg_d = sum(draw_odds_list) / len(draw_odds_list)
-    avg_a = sum(away_odds_list) / len(away_odds_list)
+    avg_h = sum(home_odds) / len(home_odds)
+    avg_d = sum(draw_odds) / len(draw_odds)
+    avg_a = sum(away_odds) / len(away_odds)
 
-    # 本命側（オッズが低い側）を「出し」として判定
     if avg_h <= avg_a:
         fav_side, fav_team, dog_team = "HOME", home, away
         o_fav, o_draw, o_dog = avg_h, avg_d, avg_a
-        fav_range = f"{min(home_odds_list):.2f}〜{max(home_odds_list):.2f}"
+        fav_min, fav_max = min(home_odds), max(home_odds)
     else:
         fav_side, fav_team, dog_team = "AWAY", away, home
         o_fav, o_draw, o_dog = avg_a, avg_d, avg_h
-        fav_range = f"{min(away_odds_list):.2f}〜{max(away_odds_list):.2f}"
+        fav_min, fav_max = min(away_odds), max(away_odds)
 
+    fav_range = f"{fav_min:.2f}〜{fav_max:.2f}"
     raw_f, raw_d, raw_l = 1.0 / o_fav, 1.0 / o_draw, 1.0 / o_dog
     total_raw = raw_f + raw_d + raw_l
     p_fav, p_draw, p_dog = raw_f / total_raw, raw_d / total_raw, raw_l / total_raw
 
     diff_probs = estimate_goal_diff_probs(p_fav, p_draw, p_dog)
 
-    # 推定ハンデ（EVが0%に最も近いハンデ）
     best_h = HANDICAPS[0]
     best_metrics = None
     min_abs_ev = 9999.0
@@ -211,7 +247,46 @@ def analyze_event(ev: dict, league_name: str):
             best_metrics = m
 
     win_pct = round(p_fav * 100, 1)
-    # 自動暫定★評価（直前の定性確認前）
+    kickoff_jst = datetime.fromisoformat(ev["commence_time"].replace("Z", "+00:00")).astimezone(JST)
+
+    # ルール1・6・11に基づく自動アラート/タグ生成
+    alerts = []
+    if league_name == "CL":
+        alerts.append("CL: 本命優位傾向")
+    elif league_name == "EL":
+        alerts.append("EL: CLより波乱注意")
+
+    hhmm = kickoff_jst.hour * 60 + kickoff_jst.minute
+    if 19 * 60 <= hhmm <= 20 * 60 + 30:
+        alerts.append("19:00〜20:30開始（崩れ注意・暫定）")
+
+    if 45.0 <= win_pct <= 55.0 and HANDICAPS.index(best_h) >= HANDICAPS.index("0半"):
+        alerts.append("勝率5割前後・引分け全負け注意")
+
+    if (fav_max - fav_min) >= 0.15:
+        alerts.append("業者間オッズ差大")
+
+    # 順位・大勝チェック仮判定（football-data.org連携時）
+    h_stat = find_team_stat(standings, home)
+    a_stat = find_team_stat(standings, away)
+    home_label = f"{home}[{h_stat['pos']}位]" if h_stat and h_stat.get("pos") else home
+    away_label = f"{away}[{a_stat['pos']}位]" if a_stat and a_stat.get("pos") else away
+
+    blowout_score = None
+    if h_stat and a_stat:
+        fav_st = h_stat if fav_side == "HOME" else a_stat
+        dog_st = a_stat if fav_side == "HOME" else h_stat
+        cnt = 0
+        if fav_st["gf_avg"] >= 1.8:
+            cnt += 1
+        if fav_st["ga_avg"] <= 1.0:
+            cnt += 1
+        if dog_st["gf_avg"] <= 1.0:
+            cnt += 1
+        if dog_st["ga_avg"] >= 1.6:
+            cnt += 1
+        blowout_score = f"{cnt}/4項目(休養差除く)"
+
     if win_pct >= 62 and best_metrics["get_pct"] >= 60:
         stars = 4
         rec_type = "確信型候補"
@@ -222,14 +297,15 @@ def analyze_event(ev: dict, league_name: str):
         stars = 2
         rec_type = "参考（ハンデ確認要）"
 
-    kickoff_jst = datetime.fromisoformat(ev["commence_time"].replace("Z", "+00:00")).astimezone(JST)
+    if league_name == "EL" and stars >= 4:
+        stars = 3
 
     return {
         "id": ev.get("id"),
         "league": league_name,
         "kickoff_jst": kickoff_jst.strftime("%Y-%m-%d %H:%M"),
-        "home": home,
-        "away": away,
+        "home": home_label,
+        "away": away_label,
         "favorite_side": fav_side,
         "favorite_team": fav_team,
         "odds_avg": {"fav": round(o_fav, 2), "draw": round(o_draw, 2), "dog": round(o_dog, 2)},
@@ -239,7 +315,9 @@ def analyze_event(ev: dict, league_name: str):
         "metrics_at_est": best_metrics,
         "preliminary_type": rec_type,
         "preliminary_stars": stars,
-        "bookmaker_count": len(home_odds_list),
+        "alerts": alerts,
+        "blowout_auto": blowout_score,
+        "bookmaker_count": len(home_odds),
     }
 
 
@@ -247,23 +325,21 @@ def main():
     api_key = os.environ.get("ODDS_API_KEY", "").strip()
     if not api_key:
         raise RuntimeError("環境変数 ODDS_API_KEY が設定されていません。")
+    fd_key = os.environ.get("FOOTBALL_DATA_KEY", "").strip()
 
     now_jst = datetime.now(JST)
-    # 当日19:00 JST 〜 翌日09:00 JST
     start_jst = now_jst.replace(hour=19, minute=0, second=0, microsecond=0)
-    if now_jst.hour >= 21:
-        # 深夜帯に手動実行された場合は当日枠を維持
-        start_jst = now_jst.replace(hour=19, minute=0, second=0, microsecond=0)
     end_jst = (start_jst + timedelta(days=1)).replace(hour=9, minute=0, second=0, microsecond=0)
 
     from_iso = start_jst.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     to_iso = end_jst.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     results = []
-    for sport_key, league_name in TARGET_LEAGUES:
+    for sport_key, league_name, fd_code in TARGET_LEAGUES:
         events = fetch_league_odds(api_key, sport_key, from_iso, to_iso)
+        standings = fetch_standings(fd_key, fd_code) if (events and fd_key and fd_code) else {}
         for ev in events:
-            parsed = analyze_event(ev, league_name)
+            parsed = analyze_event(ev, league_name, standings)
             if parsed:
                 results.append(parsed)
 

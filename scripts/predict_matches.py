@@ -148,6 +148,7 @@ def fetch_standings(fd_key: str, comp_code: str) -> dict:
         with urllib.request.urlopen(req, timeout=15) as resp:
             data = json.loads(resp.read().decode("utf-8"))
         teams = {}
+        form_map = {"W": "勝", "D": "分", "L": "負"}
         for st in data.get("standings", []):
             if st.get("type") != "TOTAL":
                 continue
@@ -155,10 +156,13 @@ def fetch_standings(fd_key: str, comp_code: str) -> dict:
                 t = row.get("team", {})
                 name = t.get("shortName") or t.get("name", "")
                 played = max(1, row.get("playedGames", 1))
+                raw_form = row.get("form") or ""
+                form_jp = "".join(form_map.get(x.strip(), "") for x in raw_form.split(","))
                 teams[norm_name(name)] = {
                     "pos": row.get("position"),
                     "gf": row.get("goalsFor", 0),
                     "ga": row.get("goalsAgainst", 0),
+                    "form": form_jp,
                     "gf_avg": round(row.get("goalsFor", 0) / played, 2),
                     "ga_avg": round(row.get("goalsAgainst", 0) / played, 2),
                 }
@@ -175,6 +179,15 @@ def find_team_stat(standings: dict, team_name: str):
         if k in key or key in k:
             return v
     return None
+
+
+def format_team_label(name: str, stat) -> str:
+    if not stat or not stat.get("pos"):
+        return name
+    parts = [f"{stat['pos']}位", f"得点{stat['gf']}/失点{stat['ga']}"]
+    if stat.get("form"):
+        parts.append(f"直近:{stat['form']}")
+    return f"{name} [{' '.join(parts)}]"
 
 
 def fetch_league_odds(api_key: str, sport_key: str, from_iso: str, to_iso: str) -> list:
@@ -268,8 +281,8 @@ def analyze_event(ev: dict, league_name: str, standings: dict):
 
     h_stat = find_team_stat(standings, home)
     a_stat = find_team_stat(standings, away)
-    home_label = f"{home} [{h_stat['pos']}位 得点{h_stat['gf']}/失点{h_stat['ga']}]" if h_stat and h_stat.get("pos") else home
-    away_label = f"{away} [{a_stat['pos']}位 得点{a_stat['gf']}/失点{a_stat['ga']}]" if a_stat and a_stat.get("pos") else away
+    home_label = format_team_label(home, h_stat)
+    away_label = format_team_label(away, a_stat)
 
     blowout_score = None
     if h_stat and a_stat:

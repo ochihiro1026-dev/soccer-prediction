@@ -9,7 +9,6 @@ from datetime import datetime, timedelta, timezone
 
 JST = timezone(timedelta(hours=9))
 
-# (The Odds API キー, 表示名, football-data.org 大会コード)
 TARGET_LEAGUES = [
     ("soccer_epl", "プレミアリーグ", "PL"),
     ("soccer_spain_la_liga", "ラ・リーガ", "PD"),
@@ -158,6 +157,8 @@ def fetch_standings(fd_key: str, comp_code: str) -> dict:
                 played = max(1, row.get("playedGames", 1))
                 teams[norm_name(name)] = {
                     "pos": row.get("position"),
+                    "gf": row.get("goalsFor", 0),
+                    "ga": row.get("goalsAgainst", 0),
                     "gf_avg": round(row.get("goalsFor", 0) / played, 2),
                     "ga_avg": round(row.get("goalsAgainst", 0) / played, 2),
                 }
@@ -221,11 +222,11 @@ def analyze_event(ev: dict, league_name: str, standings: dict):
     avg_a = sum(away_odds) / len(away_odds)
 
     if avg_h <= avg_a:
-        fav_side, fav_team, dog_team = "HOME", home, away
+        fav_side, fav_team = "HOME", home
         o_fav, o_draw, o_dog = avg_h, avg_d, avg_a
         fav_min, fav_max = min(home_odds), max(home_odds)
     else:
-        fav_side, fav_team, dog_team = "AWAY", away, home
+        fav_side, fav_team = "AWAY", away
         o_fav, o_draw, o_dog = avg_a, avg_d, avg_h
         fav_min, fav_max = min(away_odds), max(away_odds)
 
@@ -249,7 +250,6 @@ def analyze_event(ev: dict, league_name: str, standings: dict):
     win_pct = round(p_fav * 100, 1)
     kickoff_jst = datetime.fromisoformat(ev["commence_time"].replace("Z", "+00:00")).astimezone(JST)
 
-    # ルール1・6・11に基づく自動アラート/タグ生成
     alerts = []
     if league_name == "CL":
         alerts.append("CL: 本命優位傾向")
@@ -266,11 +266,10 @@ def analyze_event(ev: dict, league_name: str, standings: dict):
     if (fav_max - fav_min) >= 0.15:
         alerts.append("業者間オッズ差大")
 
-    # 順位・大勝チェック仮判定（football-data.org連携時）
     h_stat = find_team_stat(standings, home)
     a_stat = find_team_stat(standings, away)
-    home_label = f"{home}[{h_stat['pos']}位]" if h_stat and h_stat.get("pos") else home
-    away_label = f"{away}[{a_stat['pos']}位]" if a_stat and a_stat.get("pos") else away
+    home_label = f"{home} [{h_stat['pos']}位 得点{h_stat['gf']}/失点{h_stat['ga']}]" if h_stat and h_stat.get("pos") else home
+    away_label = f"{away} [{a_stat['pos']}位 得点{a_stat['gf']}/失点{a_stat['ga']}]" if a_stat and a_stat.get("pos") else away
 
     blowout_score = None
     if h_stat and a_stat:
@@ -321,11 +320,49 @@ def analyze_event(ev: dict, league_name: str, standings: dict):
     }
 
 
+def notify_discord(webhook_url: str, payload: dict, site_url: str):
+    if not webhook_url:
+        return
+    matches = payload.get("matches", [])
+    star4 = [m for m in matches if m.get("preliminary_stars", 0) >= 4]
+    lines = [
+        f"⚽ **海外サッカー自動予想を更新しました**（{payload['generated_at_jst']}）",
+        f"対象: {payload['match_count']}試合（{payload['window_jst']}）",
+    ]
+    if star4:
+        lines.append("【★4候補】")
+        for m in star4[:5]:
+            ev = m["metrics_at_est"]["ev_pct"]
+            lines.append(
+                f"・{m['home']} vs {m['away']}（出し: {m['favorite_team']} / 推定: {m['estimated_handicap']} / EV: {ev:+.1f}%）"
+            )
+    else:
+        lines.append("【★4候補】該当なし")
+
+    if site_url:
+        lines.append(f"▼ サイトで確認する\n{site_url}")
+
+    body = json.dumps({"content": "\n".join(lines)}).encode("utf-8")
+    req = urllib.request.Request(
+        webhook_url,
+        data=body,
+        headers={"Content-Type": "application/json", "User-Agent": "SoccerPredictorBot/1.0"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            print(f"Discord notified: {resp.status}")
+    except Exception as e:
+        print(f"[WARN] Discord notification failed: {e}")
+
+
 def main():
     api_key = os.environ.get("ODDS_API_KEY", "").strip()
     if not api_key:
         raise RuntimeError("環境変数 ODDS_API_KEY が設定されていません。")
     fd_key = os.environ.get("FOOTBALL_DATA_KEY", "").strip()
+    webhook_url = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
+    site_url = os.environ.get("SITE_URL", "").strip()
 
     now_jst = datetime.now(JST)
     start_jst = now_jst.replace(hour=19, minute=0, second=0, microsecond=0)
@@ -356,6 +393,7 @@ def main():
         json.dump(payload, f, ensure_ascii=False, indent=2)
 
     print(f"Updated data/predictions.json ({len(results)} matches)")
+    notify_discord(webhook_url, payload, site_url)
 
 
 if __name__ == "__main__":

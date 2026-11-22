@@ -1,8 +1,39 @@
 {
-  "generated_at_jst": "2026-11-22 06:27:29",
+  "generated_at_jst": "2026-11-22 18:40:28",
   "window_jst": "2026-11-22 19:00 〜 2026-11-23 09:00",
   "match_count": 16,
   "matches": [
+    {
+      "id": "214a79b6e08dbe3f508844936158c038",
+      "league": "ラ・リーガ",
+      "kickoff_jst": "2026-11-22 22:00",
+      "home": "Barcelona",
+      "away": "Villarreal",
+      "favorite_side": "HOME",
+      "favorite_team": "Barcelona",
+      "odds_avg": {
+        "fav": 1.17,
+        "draw": 8.2,
+        "dog": 12.17
+      },
+      "fav_odds_range": "1.12〜1.23",
+      "fair_prob_pct": {
+        "fav": 80.7,
+        "draw": 11.6,
+        "dog": 7.8
+      },
+      "estimated_handicap": "1半7",
+      "metrics_at_est": {
+        "full_win_pct": 37.3,
+        "get_pct": 59.7,
+        "ev_pct": 1.5
+      },
+      "preliminary_type": "的中率型候補",
+      "preliminary_stars": 3,
+      "alerts": [],
+      "blowout_auto": null,
+      "bookmaker_count": 38
+    },
     {
       "id": "9a214142c9b31ad8233dccad53f75d6d",
       "league": "ブンデスリーガ",
@@ -12,54 +43,52 @@
       "favorite_side": "HOME",
       "favorite_team": "Werder Bremen",
       "odds_avg": {
-        "fav": 1.61,
-        "draw": 4.26,
-        "dog": 4.83
+        "fav": 1.57,
+        "draw": 4.31,
+        "dog": 5.18
       },
-      "fav_odds_range": "1.52〜1.68",
+      "fav_odds_range": "1.50〜1.64",
       "fair_prob_pct": {
-        "fav": 58.5,
-        "draw": 22.0,
-        "dog": 19.5
+        "fav": 60.0,
+        "draw": 21.8,
+        "dog": 18.2
       },
       "estimated_handicap": "0半7",
       "metrics_at_est": {
-        "full_win_pct": 35.1,
-        "get_pct": 58.5,
-        "ev_pct": -1.5
+        "full_win_pct": 37.1,
+        "get_pct": 60.0,
+        "ev_pct": 1.8
       },
       "preliminary_type": "的中率型候補",
       "preliminary_stars": 3,
-      "alerts": [
-        "業者間オッズ差大"
-      ],
+      "alerts": [],
       "blowout_auto": null,
       "bookmaker_count": 41
     },
     {
-      "id": "e22f82b10fe71d230248b88fef87e58f",
+      "id": "5faf836ce6c0fd72af5d1fe258c63bc6",
       "league": "セリエA",
-      "kickoff_jst": "2026-11-23 04:45",
-      "home": "Atalanta BC",
-      "away": "Inter Milan",
-      "favorite_side": "AWAY",
-      "favorite_team": "Inter Milan",
+      "kickoff_jst": "2026-11-23 02:00",
+      "home": "AC Milan",
+      "away": "Frosinone",
+      "favorite_side": "HOME",
+      "favorite_team": "AC Milan",
       "odds_avg": {
-        "fav": 1.55,
-        "draw": 4.57,
-        "dog": 4.98
+        "fav": 1.59,
+        "draw": 4.42,
+        "dog": 4.79
       },
-      "fav_odds_range": "1.47〜1.64",
+      "fav_odds_range": "1.50〜1.67",
       "fair_prob_pct": {
-        "fav": 60.5,
-        "draw": 20.6,
-        "dog": 18.9
+        "fav": 59.0,
+        "draw": 21.3,
+        "dog": 19.7
       },
       "estimated_handicap": "0半7",
       "metrics_at_est": {
-        "full_win_pct": 37.4,
-        "get_pct": 60.5,
-        "ev_pct": 2.7
+        "full_win_pct": 35.4,
+        "get_pct": 59.0,
+        "ev_pct": -0.6
       },
       "preliminary_type": "的中率型候補",
       "preliminary_stars": 3,
@@ -67,7 +96,7 @@
         "業者間オッズ差大"
       ],
       "blowout_auto": null,
-      "bookmaker_count": 41
+      "bookmaker_count": 42
     },
     {
       "id": "be2fcabc408be29ca01ce92ab266f8b7",
@@ -78,61 +107,29 @@
       "favorite_side": "HOME",
       "favorite_team": "Juventus",
       "odds_avg": {
-        "fav": 1.35,
-        "draw": 5.1,
-        "dog": 8.08
+        "fav": 1.37,
+        "draw": 4.92,
+        "dog": 7.67
       },
-      "fav_odds_range": "1.24〜1.40",
+      "fav_odds_range": "1.28〜1.43",
       "fair_prob_pct": {
-        "fav": 69.9,
-        "draw": 18.5,
-        "dog": 11.7
+        "fav": 68.6,
+        "draw": 19.1,
+        "dog": 12.3
       },
-      "estimated_handicap": "1.7",
+      "estimated_handicap": "1.5",
       "metrics_at_est": {
-        "full_win_pct": 47.0,
-        "get_pct": 47.0,
-        "ev_pct": -1.6
+        "full_win_pct": 44.9,
+        "get_pct": 44.9,
+        "ev_pct": -0.6
       },
       "preliminary_type": "参考（ハンデ確認要）",
       "preliminary_stars": 2,
       "alerts": [
-        "19:00〜20:30開始（崩れ注意・暫定）",
-        "業者間オッズ差大"
+        "19:00〜20:30開始（崩れ注意・暫定）"
       ],
       "blowout_auto": null,
       "bookmaker_count": 42
-    },
-    {
-      "id": "214a79b6e08dbe3f508844936158c038",
-      "league": "ラ・リーガ",
-      "kickoff_jst": "2026-11-22 22:00",
-      "home": "Barcelona",
-      "away": "Villarreal",
-      "favorite_side": "HOME",
-      "favorite_team": "Barcelona",
-      "odds_avg": {
-        "fav": 1.19,
-        "draw": 7.52,
-        "dog": 11.28
-      },
-      "fav_odds_range": "1.12〜1.25",
-      "fair_prob_pct": {
-        "fav": 79.1,
-        "draw": 12.5,
-        "dog": 8.4
-      },
-      "estimated_handicap": "1半7",
-      "metrics_at_est": {
-        "full_win_pct": 34.8,
-        "get_pct": 57.2,
-        "ev_pct": -3.3
-      },
-      "preliminary_type": "参考（ハンデ確認要）",
-      "preliminary_stars": 2,
-      "alerts": [],
-      "blowout_auto": null,
-      "bookmaker_count": 38
     },
     {
       "id": "230a356290e1a358e9dd2f7fa23de3b9",
@@ -143,21 +140,21 @@
       "favorite_side": "AWAY",
       "favorite_team": "Brighton and Hove Albion",
       "odds_avg": {
-        "fav": 1.49,
-        "draw": 4.39,
-        "dog": 6.26
+        "fav": 1.48,
+        "draw": 4.41,
+        "dog": 6.4
       },
       "fav_odds_range": "1.40〜1.54",
       "fair_prob_pct": {
-        "fav": 63.4,
+        "fav": 63.8,
         "draw": 21.5,
-        "dog": 15.1
+        "dog": 14.8
       },
       "estimated_handicap": "1.0",
       "metrics_at_est": {
-        "full_win_pct": 40.4,
-        "get_pct": 40.4,
-        "ev_pct": 1.7
+        "full_win_pct": 40.6,
+        "get_pct": 40.6,
+        "ev_pct": 2.3
       },
       "preliminary_type": "参考（ハンデ確認要）",
       "preliminary_stars": 2,
@@ -174,25 +171,26 @@
       "favorite_side": "HOME",
       "favorite_team": "Bologna",
       "odds_avg": {
-        "fav": 1.71,
-        "draw": 3.77,
-        "dog": 4.75
+        "fav": 1.74,
+        "draw": 3.67,
+        "dog": 4.72
       },
-      "fav_odds_range": "1.60〜1.77",
+      "fav_odds_range": "1.63〜1.82",
       "fair_prob_pct": {
-        "fav": 55.2,
-        "draw": 25.0,
-        "dog": 19.8
+        "fav": 54.3,
+        "draw": 25.7,
+        "dog": 20.0
       },
       "estimated_handicap": "0半3",
       "metrics_at_est": {
-        "full_win_pct": 32.1,
-        "get_pct": 55.2,
-        "ev_pct": 1.0
+        "full_win_pct": 31.6,
+        "get_pct": 54.3,
+        "ev_pct": -0.6
       },
       "preliminary_type": "参考（ハンデ確認要）",
       "preliminary_stars": 2,
       "alerts": [
+        "勝率5割前後・引分け全負け注意",
         "業者間オッズ差大"
       ],
       "blowout_auto": null,
@@ -207,21 +205,21 @@
       "favorite_side": "AWAY",
       "favorite_team": "Genoa",
       "odds_avg": {
-        "fav": 2.63,
-        "draw": 3.29,
-        "dog": 2.65
+        "fav": 2.61,
+        "draw": 3.26,
+        "dog": 2.69
       },
-      "fav_odds_range": "2.40〜2.84",
+      "fav_odds_range": "2.35〜2.76",
       "fair_prob_pct": {
-        "fav": 35.9,
-        "draw": 28.6,
-        "dog": 35.5
+        "fav": 36.1,
+        "draw": 28.9,
+        "dog": 35.1
       },
       "estimated_handicap": "0",
       "metrics_at_est": {
-        "full_win_pct": 35.9,
-        "get_pct": 35.9,
-        "ev_pct": -1.5
+        "full_win_pct": 36.1,
+        "get_pct": 36.1,
+        "ev_pct": -0.8
       },
       "preliminary_type": "参考（ハンデ確認要）",
       "preliminary_stars": 2,
@@ -240,21 +238,21 @@
       "favorite_side": "HOME",
       "favorite_team": "Paris FC",
       "odds_avg": {
-        "fav": 1.31,
-        "draw": 5.37,
-        "dog": 8.76
+        "fav": 1.28,
+        "draw": 5.74,
+        "dog": 9.05
       },
-      "fav_odds_range": "1.23〜1.36",
+      "fav_odds_range": "1.22〜1.34",
       "fair_prob_pct": {
-        "fav": 71.8,
-        "draw": 17.5,
-        "dog": 10.7
+        "fav": 73.2,
+        "draw": 16.4,
+        "dog": 10.4
       },
-      "estimated_handicap": "1.7",
+      "estimated_handicap": "1半",
       "metrics_at_est": {
-        "full_win_pct": 49.5,
-        "get_pct": 49.5,
-        "ev_pct": 3.2
+        "full_win_pct": 50.5,
+        "get_pct": 50.5,
+        "ev_pct": -1.5
       },
       "preliminary_type": "参考（ハンデ確認要）",
       "preliminary_stars": 2,
@@ -271,21 +269,21 @@
       "favorite_side": "AWAY",
       "favorite_team": "FSV Mainz 05",
       "odds_avg": {
-        "fav": 2.39,
+        "fav": 2.32,
         "draw": 3.82,
-        "dog": 2.58
+        "dog": 2.68
       },
-      "fav_odds_range": "2.15〜2.52",
+      "fav_odds_range": "2.05〜2.50",
       "fair_prob_pct": {
-        "fav": 39.1,
-        "draw": 24.5,
-        "dog": 36.4
+        "fav": 40.4,
+        "draw": 24.6,
+        "dog": 35.0
       },
       "estimated_handicap": "0",
       "metrics_at_est": {
-        "full_win_pct": 39.1,
-        "get_pct": 39.1,
-        "ev_pct": 0.8
+        "full_win_pct": 40.4,
+        "get_pct": 40.4,
+        "ev_pct": 3.4
       },
       "preliminary_type": "参考（ハンデ確認要）",
       "preliminary_stars": 2,
@@ -304,21 +302,21 @@
       "favorite_side": "AWAY",
       "favorite_team": "Real Sociedad",
       "odds_avg": {
-        "fav": 2.0,
-        "draw": 4.06,
-        "dog": 3.14
+        "fav": 2.01,
+        "draw": 4.0,
+        "dog": 3.17
       },
-      "fav_odds_range": "1.83〜2.10",
+      "fav_odds_range": "1.85〜2.10",
       "fair_prob_pct": {
-        "fav": 47.0,
-        "draw": 23.1,
-        "dog": 29.9
+        "fav": 46.8,
+        "draw": 23.5,
+        "dog": 29.7
       },
       "estimated_handicap": "0/7",
       "metrics_at_est": {
-        "full_win_pct": 47.0,
-        "get_pct": 47.0,
-        "ev_pct": -1.4
+        "full_win_pct": 46.8,
+        "get_pct": 46.8,
+        "ev_pct": -1.8
       },
       "preliminary_type": "参考（ハンデ確認要）",
       "preliminary_stars": 2,
@@ -337,21 +335,21 @@
       "favorite_side": "AWAY",
       "favorite_team": "Rennes",
       "odds_avg": {
-        "fav": 2.36,
-        "draw": 3.41,
-        "dog": 2.86
+        "fav": 2.37,
+        "draw": 3.28,
+        "dog": 2.96
       },
-      "fav_odds_range": "2.20〜2.49",
+      "fav_odds_range": "2.20〜2.50",
       "fair_prob_pct": {
         "fav": 39.7,
-        "draw": 27.5,
-        "dog": 32.8
+        "draw": 28.6,
+        "dog": 31.7
       },
       "estimated_handicap": "0/3",
       "metrics_at_est": {
         "full_win_pct": 39.7,
         "get_pct": 39.7,
-        "ev_pct": -3.3
+        "ev_pct": -2.6
       },
       "preliminary_type": "参考（ハンデ確認要）",
       "preliminary_stars": 2,
@@ -371,20 +369,20 @@
       "favorite_team": "Liverpool",
       "odds_avg": {
         "fav": 1.69,
-        "draw": 4.22,
-        "dog": 4.4
+        "draw": 4.21,
+        "dog": 4.44
       },
-      "fav_odds_range": "1.59〜1.75",
+      "fav_odds_range": "1.59〜1.76",
       "fair_prob_pct": {
-        "fav": 56.1,
-        "draw": 22.4,
-        "dog": 21.5
+        "fav": 56.2,
+        "draw": 22.5,
+        "dog": 21.3
       },
       "estimated_handicap": "0半5",
       "metrics_at_est": {
-        "full_win_pct": 32.6,
-        "get_pct": 56.1,
-        "ev_pct": -1.8
+        "full_win_pct": 32.7,
+        "get_pct": 56.2,
+        "ev_pct": -1.6
       },
       "preliminary_type": "参考（ハンデ確認要）",
       "preliminary_stars": 2,
@@ -395,39 +393,6 @@
       "bookmaker_count": 43
     },
     {
-      "id": "5faf836ce6c0fd72af5d1fe258c63bc6",
-      "league": "セリエA",
-      "kickoff_jst": "2026-11-23 02:00",
-      "home": "AC Milan",
-      "away": "Frosinone",
-      "favorite_side": "HOME",
-      "favorite_team": "AC Milan",
-      "odds_avg": {
-        "fav": 1.54,
-        "draw": 4.61,
-        "dog": 5.08
-      },
-      "fav_odds_range": "1.44〜1.61",
-      "fair_prob_pct": {
-        "fav": 61.2,
-        "draw": 20.4,
-        "dog": 18.5
-      },
-      "estimated_handicap": "1.0",
-      "metrics_at_est": {
-        "full_win_pct": 37.8,
-        "get_pct": 37.8,
-        "ev_pct": -2.9
-      },
-      "preliminary_type": "参考（ハンデ確認要）",
-      "preliminary_stars": 2,
-      "alerts": [
-        "業者間オッズ差大"
-      ],
-      "blowout_auto": null,
-      "bookmaker_count": 42
-    },
-    {
       "id": "893268e5503c4e58fbf137e4b5db7e93",
       "league": "ラ・リーガ",
       "kickoff_jst": "2026-11-23 02:30",
@@ -436,21 +401,21 @@
       "favorite_side": "HOME",
       "favorite_team": "CA Osasuna",
       "odds_avg": {
-        "fav": 1.8,
-        "draw": 3.58,
-        "dog": 4.41
+        "fav": 1.81,
+        "draw": 3.57,
+        "dog": 4.4
       },
-      "fav_odds_range": "1.72〜1.88",
+      "fav_odds_range": "1.72〜1.91",
       "fair_prob_pct": {
-        "fav": 52.3,
-        "draw": 26.3,
-        "dog": 21.3
+        "fav": 52.1,
+        "draw": 26.5,
+        "dog": 21.4
       },
       "estimated_handicap": "0半",
       "metrics_at_est": {
-        "full_win_pct": 52.3,
-        "get_pct": 52.3,
-        "ev_pct": 2.0
+        "full_win_pct": 52.1,
+        "get_pct": 52.1,
+        "ev_pct": 1.6
       },
       "preliminary_type": "参考（ハンデ確認要）",
       "preliminary_stars": 2,
@@ -462,6 +427,39 @@
       "bookmaker_count": 38
     },
     {
+      "id": "e22f82b10fe71d230248b88fef87e58f",
+      "league": "セリエA",
+      "kickoff_jst": "2026-11-23 04:45",
+      "home": "Atalanta BC",
+      "away": "Inter Milan",
+      "favorite_side": "AWAY",
+      "favorite_team": "Inter Milan",
+      "odds_avg": {
+        "fav": 1.53,
+        "draw": 4.61,
+        "dog": 5.22
+      },
+      "fav_odds_range": "1.44〜1.60",
+      "fair_prob_pct": {
+        "fav": 61.5,
+        "draw": 20.4,
+        "dog": 18.0
+      },
+      "estimated_handicap": "1.0",
+      "metrics_at_est": {
+        "full_win_pct": 38.1,
+        "get_pct": 38.1,
+        "ev_pct": -2.3
+      },
+      "preliminary_type": "参考（ハンデ確認要）",
+      "preliminary_stars": 2,
+      "alerts": [
+        "業者間オッズ差大"
+      ],
+      "blowout_auto": null,
+      "bookmaker_count": 41
+    },
+    {
       "id": "98fae24771271c96d5dd364e535405d2",
       "league": "リーグ・アン",
       "kickoff_jst": "2026-11-23 04:45",
@@ -470,20 +468,20 @@
       "favorite_side": "HOME",
       "favorite_team": "Marseille",
       "odds_avg": {
-        "fav": 1.44,
-        "draw": 4.76,
-        "dog": 6.12
+        "fav": 1.45,
+        "draw": 4.73,
+        "dog": 6.19
       },
-      "fav_odds_range": "1.35〜1.50",
+      "fav_odds_range": "1.38〜1.49",
       "fair_prob_pct": {
-        "fav": 65.0,
-        "draw": 19.7,
-        "dog": 15.3
+        "fav": 64.9,
+        "draw": 19.9,
+        "dog": 15.2
       },
       "estimated_handicap": "1.2",
       "metrics_at_est": {
-        "full_win_pct": 41.4,
-        "get_pct": 41.4,
+        "full_win_pct": 41.3,
+        "get_pct": 41.3,
         "ev_pct": -0.5
       },
       "preliminary_type": "参考（ハンデ確認要）",
@@ -502,26 +500,24 @@
       "favorite_team": "Atlético Madrid",
       "odds_avg": {
         "fav": 1.53,
-        "draw": 3.98,
-        "dog": 6.5
+        "draw": 3.93,
+        "dog": 6.74
       },
-      "fav_odds_range": "1.45〜1.62",
+      "fav_odds_range": "1.45〜1.58",
       "fair_prob_pct": {
-        "fav": 61.7,
-        "draw": 23.8,
-        "dog": 14.6
+        "fav": 61.9,
+        "draw": 24.1,
+        "dog": 14.0
       },
       "estimated_handicap": "1.0",
       "metrics_at_est": {
-        "full_win_pct": 38.2,
-        "get_pct": 38.2,
-        "ev_pct": -2.1
+        "full_win_pct": 38.3,
+        "get_pct": 38.3,
+        "ev_pct": -1.7
       },
       "preliminary_type": "参考（ハンデ確認要）",
       "preliminary_stars": 2,
-      "alerts": [
-        "業者間オッズ差大"
-      ],
+      "alerts": [],
       "blowout_auto": null,
       "bookmaker_count": 37
     }

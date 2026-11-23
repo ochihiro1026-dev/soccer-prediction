@@ -1,5 +1,5 @@
 {
-  "generated_at_jst": "2026-11-23 06:30:10",
+  "generated_at_jst": "2026-11-23 19:04:50",
   "window_jst": "2026-11-23 19:00 〜 2026-11-24 09:00",
   "match_count": 3,
   "matches": [
@@ -12,21 +12,21 @@
       "favorite_side": "AWAY",
       "favorite_team": "Fiorentina",
       "odds_avg": {
-        "fav": 1.92,
-        "draw": 3.79,
-        "dog": 3.58
+        "fav": 1.95,
+        "draw": 3.76,
+        "dog": 3.56
       },
-      "fav_odds_range": "1.80〜2.00",
+      "fav_odds_range": "1.82〜2.04",
       "fair_prob_pct": {
-        "fav": 49.0,
-        "draw": 24.8,
-        "dog": 26.2
+        "fav": 48.4,
+        "draw": 25.1,
+        "dog": 26.5
       },
       "estimated_handicap": "0/8",
       "metrics_at_est": {
-        "full_win_pct": 49.0,
-        "get_pct": 49.0,
-        "ev_pct": 0.4
+        "full_win_pct": 48.4,
+        "get_pct": 48.4,
+        "ev_pct": -0.6
       },
       "preliminary_type": "参考（ハンデ確認要）",
       "preliminary_stars": 2,
@@ -45,21 +45,21 @@
       "favorite_side": "HOME",
       "favorite_team": "Brentford",
       "odds_avg": {
-        "fav": 2.26,
-        "draw": 3.48,
-        "dog": 3.04
+        "fav": 2.24,
+        "draw": 3.47,
+        "dog": 3.11
       },
-      "fav_odds_range": "2.10〜2.38",
+      "fav_odds_range": "2.05〜2.36",
       "fair_prob_pct": {
-        "fav": 41.8,
-        "draw": 27.2,
-        "dog": 31.1
+        "fav": 42.3,
+        "draw": 27.3,
+        "dog": 30.4
       },
       "estimated_handicap": "0/3",
       "metrics_at_est": {
-        "full_win_pct": 41.8,
-        "get_pct": 41.8,
-        "ev_pct": 0.5
+        "full_win_pct": 42.3,
+        "get_pct": 42.3,
+        "ev_pct": 1.6
       },
       "preliminary_type": "参考（ハンデ確認要）",
       "preliminary_stars": 2,
@@ -80,19 +80,19 @@
       "odds_avg": {
         "fav": 2.14,
         "draw": 3.55,
-        "dog": 3.19
+        "dog": 3.18
       },
-      "fav_odds_range": "1.98〜2.26",
+      "fav_odds_range": "2.00〜2.26",
       "fair_prob_pct": {
         "fav": 44.0,
         "draw": 26.5,
-        "dog": 29.5
+        "dog": 29.6
       },
       "estimated_handicap": "0/5",
       "metrics_at_est": {
         "full_win_pct": 44.0,
         "get_pct": 44.0,
-        "ev_pct": -0.9
+        "ev_pct": -1.0
       },
       "preliminary_type": "参考（ハンデ確認要）",
       "preliminary_stars": 2,
